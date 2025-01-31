@@ -1,33 +1,13 @@
-/* Estilo para el botón en la parte superior */
-.mlr-toggle-button {
-    display: block;
-    margin-bottom: 20px; /* Espacio debajo del botón */
+#resumen-noticias-boton {
+    background-color: #0073aa;
+    color: white;
     padding: 10px 15px;
-    background-color: #0073aa; /* Color de fondo */
-    color: #fff; /* Color del texto */
     border: none;
-    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    margin-bottom: 10px;
 }
 
-.mlr-toggle-button:hover {
-    background-color: #005177; /* Color al pasar el mouse */
-}
-
-/* Aseguramos que las imágenes se ajusten bien */
-.mlr-summary img, .mlr-full-content img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
-/* Estilo para el resumen */
-.mlr-summary {
-    margin-bottom: 20px;
-}
-
-/* Ocultamos el contenido completo inicialmente */
-.mlr-full-content {
-    display: none;
+#resumen-noticias-boton:hover {
+    background-color: #005177;
 }
