@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Resumen Automático de Noticias
- * Description: Genera un resumen inteligente de la noticia usando la API de OpenAI.
+ * Description: Genera un resumen inteligente de la noticia usando la API de Hugging Face.
  * Version: 1.0
  * Author: Alan Navarrete - Elizabeth Lohse
  */
@@ -15,10 +15,10 @@ function resumen_noticias_scripts() {
         wp_enqueue_script('resumen-noticias', plugin_dir_url(__FILE__) . 'assets/script.js', array('jquery'), null, true);
 
         // Usamos wp_localize_script para pasar variables de PHP a JavaScript
-        // 'openai_api' es el nombre de la variable JavaScript que contiene la URL y la API Key de OpenAI
-        wp_localize_script('resumen-noticias', 'openai_api', array(
-            'url' => 'https://api.openai.com/v1/chat/completions',  // URL de la API de OpenAI para resúmenes
-            'api_key' => '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' // API key de OpenAI
+        // 'huggingface_api' es el nombre de la variable JavaScript que contiene la URL y la API Key de Hugging Face
+        wp_localize_script('resumen-noticias', 'huggingface_api', array(
+            'url' => 'https://api-inference.huggingface.co/models/mrm8488/t5-base-finetuned-spanish-summarization',  // URL del modelo en Hugging Face para resúmenes en español
+            'api_key' => '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' // Sustituye esto por tu clave de API de Hugging Face
         ));
 
         // Archivo CSS para el diseño del botón y el contenedor del resumen
