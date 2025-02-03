@@ -2,7 +2,7 @@ jQuery(document).ready(function ($) {
     // Guarda el contenido completo del post (sin ningún cambio)
     let contenidoOriginal = $("#contenido-original").html(); // Guarda el contenido completo del artículo
 
-    // Esta variable almacena el resumen generado por la API de OpenAI
+    // Esta variable almacena el resumen generado por la API de Hugging Face
     let resumenGenerado = ""; // Inicialmente no hay resumen generado
 
     // Al hacer clic en el botón con id "toggle-resumen"
@@ -24,36 +24,29 @@ jQuery(document).ready(function ($) {
 
                 boton.text("Generando..."); // Se cambia el texto del botón a "Generando..." mientras se espera el resumen
 
-                // Función para realizar la solicitud AJAX a la API de OpenAI para generar el resumen
+                // Función para realizar la solicitud AJAX a la API de Hugging Face para generar el resumen
                 function generarResumen() {
                     $.ajax({
-                        url: 'https://api.openai.com/v1/chat/completions',  // URL de la API
+                        url: 'https://api-inference.huggingface.co/models/google/pegasus-xsum',
                         type: "POST",
                         headers: {
                             'Authorization': 'Bearer ' + openai_api.api_key
                         },
                         contentType: "application/json",
                         data: JSON.stringify({
-                            model: "gpt-3.5-turbo",  // Usar el modelo adecuado
-                            messages: [{
-                                role: "user",
-                                content: "Resumir el siguiente texto:\n\n" + textoOriginal
-                            }],
-                            max_tokens: 150,
-                            temperature: 0.7
+                            inputs: textoOriginal
                         }),
                         success: function (response) {
-                            resumenGenerado = response.choices[0].message.content.trim();  // Cambié la forma de obtener el resumen
+                            resumenGenerado = response.choices[0].message.content.trim();  // Asegúrate de ajustar el campo según la respuesta
                             $("#resumen-texto").html(resumenGenerado).show();
                             $("#contenido-original").hide();
                             boton.text("Ver Completo");
                         },
                         error: function (xhr) {
-                            if (xhr.status === 429) {
-                                // Si el error es 429 (Too Many Requests), espera 10 segundos y vuelve a intentar
+                            if (xhr.status === 503) {
                                 setTimeout(function() {
-                                    generarResumen(); // Reintentar la solicitud
-                                }, 10000); // 10 segundos de espera antes de reintentar
+                                    generarResumen(); // Reintenta después de 5 segundos
+                                }, 5000); // 5 segundos de espera
                             } else {
                                 alert("Error al generar el resumen. Intenta nuevamente.");
                                 boton.text("Ver Resumen");
